@@ -1,4 +1,4 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
 
 /**
  * Read environment variables from file.
@@ -22,14 +22,8 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI
-    ? [
-        ['playwright-ctrf-json-reporter', {}],
-        ['html', {open: 'never'}],
-      ]
-    : [
-        ['list'],
-        ['html', {open: 'never'}]
-      ],
+    ? [['html', { open: 'never' }]]
+    : [['list'], ['html', { open: 'never' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -47,13 +41,13 @@ export default defineConfig({
       use: {
         baseURL: 'https://qacandidatetest.ensek.io',
         ...devices['Desktop Chrome'],
-      }
+      },
     },
     {
       name: 'ui - Chrome',
       testDir: './ui-tests',
       use: {
-        baseURL: 'https://ensekautomationcandidatetest.azurewebsites.net/',
+        baseURL: 'https://ensekautomationcandidatetest.azurewebsites.net',
         ...devices['Desktop Chrome'],
       },
     },
@@ -61,7 +55,7 @@ export default defineConfig({
       name: 'ui - Firefox',
       testDir: './ui-tests',
       use: {
-        baseURL: 'https://ensekautomationcandidatetest.azurewebsites.net/',
+        baseURL: 'https://ensekautomationcandidatetest.azurewebsites.net',
         ...devices['Desktop Firefox'],
       },
     },
@@ -69,7 +63,7 @@ export default defineConfig({
       name: 'ui - Safari',
       testDir: './ui-tests',
       use: {
-        baseURL: 'https://ensekautomationcandidatetest.azurewebsites.net/',
+        baseURL: 'https://ensekautomationcandidatetest.azurewebsites.net',
         ...devices['Desktop Safari'],
       },
     },
@@ -81,4 +75,4 @@ export default defineConfig({
   //   url: 'http://127.0.0.1:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
-});
+})

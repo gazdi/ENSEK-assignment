@@ -87,6 +87,7 @@ Run the tests on major browser families, use desktop and mobile viewport sizes.
 
 ### UI elements
 Verify that the UI elements are visible and testable. 
+Verify text contents where applicable.
 Verify that the links / navigation buttons are visible and lead to where they meant to lead.
 Ignore functionality beyond this scope in these tests.
 
