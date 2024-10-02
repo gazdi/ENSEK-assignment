@@ -10,6 +10,7 @@ export class BuyEnergyPage extends BasePage {
   readonly getCell: (rowInd: number, colInd: number) => Locator
   readonly requiredUnitsField: (ind: number) => Locator
   readonly buyButton: (ind: number) => Locator
+  readonly buyAmountError: Locator
   readonly discountHeading: Locator
   readonly discountImage: Locator
   readonly backButton: Locator
@@ -21,9 +22,6 @@ export class BuyEnergyPage extends BasePage {
     this.description = this.page.locator('h4').nth(1)
     this.resetButton = this.page.getByRole('button', { name: 'Reset' })
     this.buyTable = this.page.getByRole('table')
-    this.discountHeading = this.page.locator('h3')
-    this.discountImage = this.page.locator('.body-content').getByRole('img')
-    this.backButton = this.page.getByRole('link', { name: 'Back to Homepage' })
     this.getColumnHeader = (ind: number) =>
       this.page.getByRole('table').locator('th').nth(ind)
     this.getCell = (rowInd: number, colInd: number) =>
@@ -34,8 +32,38 @@ export class BuyEnergyPage extends BasePage {
         .locator('td')
         .nth(colInd)
     this.requiredUnitsField = (ind: number) =>
-      this.page.getByRole('table').locator('tr').nth(ind).locator('td').nth(3)
+      this.page
+        .getByRole('table')
+        .locator('tr')
+        .nth(ind)
+        .locator('td')
+        .nth(3)
+        .locator('#energyType_AmountPurchased')
     this.buyButton = (ind: number) =>
-      this.page.getByRole('table').locator('tr').nth(ind).locator('td').nth(4)
+      this.page
+        .getByRole('table')
+        .locator('tr')
+        .nth(ind)
+        .locator('td')
+        .nth(4)
+        .getByRole('button')
+    this.buyAmountError = this.page.locator(
+      'Deliberate Fail > no error message on Buy Energy page',
+    )
+    this.discountHeading = this.page.locator('h3')
+    this.discountImage = this.page.locator('.body-content').getByRole('img')
+    this.backButton = this.page.getByRole('link', { name: 'Back to Homepage' })
+  }
+}
+
+export class SaleConfirmationPage extends BasePage {
+  readonly confirmationMessage: Locator
+  readonly buyMoreButton: Locator
+
+  constructor(page: Page) {
+    super(page, '/Energy/SaleConfirmed')
+
+    this.confirmationMessage = this.page.locator('.body-content div div')
+    this.buyMoreButton = this.page.getByRole('link', { name: 'Buy more »' })
   }
 }

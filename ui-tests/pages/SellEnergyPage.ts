@@ -8,7 +8,7 @@ export class SellEnergyPage extends BasePage {
     super(page, '/Energy/Sell')
 
     this.sellTable = this.page.locator(
-      'Deliberate Fail - Sell Energy permanently under maintenance',
+      'Deliberate Fail > Sell Energy permanently under maintenance',
     )
   }
 }
