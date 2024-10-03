@@ -1,6 +1,15 @@
 name: Run playwright tests
 on:
   workflow_dispatch:
+    inputs:
+      testgroup:
+        description: 'Test group to run'
+        required: true
+        default: 'API'
+        type: choice
+        options:
+          - API
+          - UI
   push:
     branches: [master]
 jobs:
@@ -12,7 +21,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install dependencies
         run: npm ci
-      - name: Run API and UI tests
+      - name: Run API tests only
+        if: ${{ inputs.testgroup == 'API' || github.event_name == 'push' }}
+        run: npm run api-tests
+        env:
+          HOME: /root
+      - name: Run UI tests
+        if: ${{ inputs.testgroup == 'UI' }}
         run: npm run ui-tests
         env:
           HOME: /root
