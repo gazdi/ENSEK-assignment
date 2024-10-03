@@ -195,20 +195,20 @@ Note: wait for API response before giving up on UI side.
 - Try to register with invalid email address
 - Try to register with non-matching password and password confirmation
 - Try to register with simple password
-- Try to register a user with an already registered email
+- Try to register a user with an already registered email - abandonned, cannot register user
 
 ### Login
 
 Verify login functionality.
-Verify confirmation/error message.
+Verify confirmation/error messages.
 
-- Login with currect details
+- Login with valid credentials - abandonned, cannot register user
 - Try to login without email
 - Try to login without password
 - Try to login with valid email and invalid password
 - Try to login with invalid email and valid password
 - Try to login with invalid email and invalid password
-- Verify the 'Remember me' functionality
+- Verify the 'Remember me' functionality - abandonned, cannot register user
 
 # Non-functional tests
 

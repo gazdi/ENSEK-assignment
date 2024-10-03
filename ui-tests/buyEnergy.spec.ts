@@ -1,10 +1,11 @@
 import { expect, Page } from '@playwright/test'
 import { testWithFailureScreenshot as test } from './helpers/hooks'
 import { BuyEnergyPage, SaleConfirmationPage } from './pages/BuyEnergyPage'
+import { energyTypes, invalidAmounts } from './testdata/buyEnergy_inputs'
 
 test.describe('Buy Energy page', async () => {
-  // TODO: use a local fixture instead of this beforeEach function
-  const beforeEach = async (page: Page, nrgType: string) => {
+  // quasi-beforeEach function to prepare convenience variables
+  const setup = async (page: Page, nrgType: string) => {
     const buyEnergyPage = new BuyEnergyPage(page)
     await buyEnergyPage.goto()
     await buyEnergyPage.resetButton.click()
@@ -47,12 +48,10 @@ test.describe('Buy Energy page', async () => {
     await confirmPage.buyMoreButton.click()
   }
 
-  // define tests for all energy types
-  const energySources = ['Gas', 'Nuclear', 'Electricity', 'Oil']
-  for (const nrgType of energySources) {
+  energyTypes.forEach(async nrgType => {
     test(`Buy some available ${nrgType}`, async ({ page }) => {
       const { availableCell, requiredCell, buyButton, availableUnits } =
-        await beforeEach(page, nrgType)
+        await setup(page, nrgType)
       test.skip(
         availableUnits <= 0,
         'Can only test this with some available units',
@@ -73,7 +72,7 @@ test.describe('Buy Energy page', async () => {
       page,
     }) => {
       const { buyEnergyPage, requiredCell, buyButton, availableUnits } =
-        await beforeEach(page, nrgType)
+        await setup(page, nrgType)
       test.skip(
         availableUnits <= 0,
         'Can only test this with some available units',
@@ -84,7 +83,7 @@ test.describe('Buy Energy page', async () => {
     })
 
     test(`Buy ${nrgType} when none is available`, async ({ page }) => {
-      const { buyButton, availableUnits } = await beforeEach(page, nrgType)
+      const { buyButton, availableUnits } = await setup(page, nrgType)
       test.skip(
         availableUnits !== 0,
         'Can only test this with 0 available units',
@@ -95,14 +94,12 @@ test.describe('Buy Energy page', async () => {
       ).toBe(0)
     })
 
-    // define tests for invalid amount
-    const invalidAmounts = ['-10', '0.12', 'alpha', '2147483648']
-    for (const invalidAmountToBuy of invalidAmounts)
+    invalidAmounts.forEach(async invalidAmountToBuy => {
       test(`Buy ${invalidAmountToBuy} units of ${nrgType} when some is available`, async ({
         page,
       }) => {
         const { buyEnergyPage, requiredCell, buyButton, availableUnits } =
-          await beforeEach(page, nrgType)
+          await setup(page, nrgType)
         test.skip(
           availableUnits <= 0,
           'Can only test this with some available units',
@@ -113,5 +110,6 @@ test.describe('Buy Energy page', async () => {
           timeout: 1000,
         })
       })
-  }
+    })
+  })
 })
