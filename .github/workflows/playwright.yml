@@ -17,7 +17,7 @@ jobs:
         env:
           HOME: /root
       - name: Publish Test Summary Results
-        qif: always()
+        if: always()
         run: npx github-actions-ctrf ctrf/ctrf-report.json
       - name: Upload Playwright Report
         if: always()
