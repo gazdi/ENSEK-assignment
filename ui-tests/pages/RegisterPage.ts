@@ -22,6 +22,19 @@ export class RegisterPage extends BasePage {
     )
   }
 
+  override getElements = (): Locator[] => {
+    const dynamicElements = ['formValidationError']
+    const staticProperties = Object.entries(this).filter(
+      p => !dynamicElements.includes(p[0]),
+    )
+    let r: Locator[] = []
+    for (const prop of staticProperties) {
+      if (typeof prop[1] === 'object' && prop[1].constructor.name === 'Locator')
+        r.push(prop[1] as Locator)
+    }
+    return r
+  }
+
   enterDetails = async (
     email: string,
     password: string,

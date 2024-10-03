@@ -23,8 +23,6 @@ test.describe('UI Elements', async () => {
         .soft(ele, `Checking visibility of ${ele.toString()}`)
         .toBeVisible()
     }
-    // stop test execution if any of the page elements is not visible
-    expect(test.info().errors).toHaveLength(0)
   }
 
   test('Home page', async ({ page, baseURL }) => {
@@ -80,7 +78,7 @@ test.describe('UI Elements', async () => {
       .soft(aboutPage.mainHeading)
       .toHaveText(/^About ENSEK Energy Corp.$/, { timeout: 1000 })
     await aboutPage.findOutMoreButton.click()
-    expect.soft(page.url()).toBe('https://ensek.com/about') // this regexp should work but doesn't: /^https:\/\/ensek.com\/about$/
+    expect.soft(page.url()).toEqual('https://ensek.com/about-us')
     expect
       .soft(page.locator('#main-content'))
       .not.toHaveText('404', { timeout: 1000 })
@@ -116,6 +114,8 @@ test.describe('UI Elements', async () => {
 
   test('Buy Energy page', async ({ page, baseURL }) => {
     const buyEnergyPage = new BuyEnergyPage(page)
+    await buyEnergyPage.goto()
+    await buyEnergyPage.resetButton.click()
     await gotoPageAndCheckElementVisibility(buyEnergyPage)
 
     await expect
@@ -172,7 +172,7 @@ test.describe('UI Elements', async () => {
         await availableCell.textContent({ timeout: 1000 }),
       )
       expect.soft(unitsAvailable, 'Available units').toBeGreaterThanOrEqual(0)
-      if (unitsAvailable === 0)
+      if (unitsAvailable <= 0)
         await expect
           .soft(requiredCell, `No ${type}, should say 'Not Available'`)
           .toHaveText(/^Not Available$/, { timeout: 1000 })
@@ -180,7 +180,7 @@ test.describe('UI Elements', async () => {
         await expect
           .soft(
             buyEnergyPage.buyButton(i),
-            '${type} is available, Buy button should be visible',
+            `${type} is available, Buy button should be visible`,
           )
           .toBeVisible({ timeout: 1000 })
     }

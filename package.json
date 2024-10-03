@@ -12,7 +12,8 @@
   "devDependencies": {
     "@playwright/test": "^1.47.2",
     "@types/node": "^22.7.4",
-    "dayjs": "^1.11.13"
+    "dayjs": "^1.11.13",
+    "playwright-ctrf-json-reporter": "^0.0.18"
   },
   "dependencies": {
     "prettier": "^3.3.3"

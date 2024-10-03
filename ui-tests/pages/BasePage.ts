@@ -42,7 +42,6 @@ export class BasePage {
   getElements = (): Locator[] => {
     let r: Locator[] = []
     for (const prop of Object.values(this)) {
-      // console.log(`checking property ${prop}`)
       if (typeof prop === 'object' && prop.constructor.name === 'Locator')
         r.push(prop as Locator)
     }

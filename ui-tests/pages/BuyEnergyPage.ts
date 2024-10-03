@@ -54,6 +54,19 @@ export class BuyEnergyPage extends BasePage {
     this.discountImage = this.page.locator('.body-content').getByRole('img')
     this.backButton = this.page.getByRole('link', { name: 'Back to Homepage' })
   }
+
+  override getElements = (): Locator[] => {
+    const dynamicElements = ['buyAmountError']
+    const staticProperties = Object.entries(this).filter(
+      p => !dynamicElements.includes(p[0]),
+    )
+    let r: Locator[] = []
+    for (const prop of staticProperties) {
+      if (typeof prop[1] === 'object' && prop[1].constructor.name === 'Locator')
+        r.push(prop[1] as Locator)
+    }
+    return r
+  }
 }
 
 export class SaleConfirmationPage extends BasePage {
