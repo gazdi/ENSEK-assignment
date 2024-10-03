@@ -18,7 +18,6 @@ test.describe('UI Elements', async () => {
   ) => {
     await actualPage.goto()
     for (const ele of actualPage.getElements()) {
-      // console.log(`checking visibility of ${ele}`)
       await expect
         .soft(ele, `Checking visibility of ${ele.toString()}`)
         .toBeVisible()

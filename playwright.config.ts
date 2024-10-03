@@ -26,11 +26,7 @@ export default defineConfig({
         ['html', { open: 'never' }],
         ['playwright-ctrf-json-reporter', {}],
       ]
-    : [
-        ['list'],
-        ['html', { open: 'never' }],
-        ['playwright-ctrf-json-reporter', {}],
-      ],
+    : [['list'], ['html', { open: 'never' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -46,7 +42,7 @@ export default defineConfig({
       name: 'api',
       testDir: './api-tests',
       use: {
-        baseURL: 'https://qacandidatetest.ensek.io',
+        baseURL: 'https://qacandidatetest.ensek.io/ENSEK/',
         ...devices['Desktop Chrome'],
       },
     },
